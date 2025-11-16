@@ -16,8 +16,8 @@ body {
 .cake {
   position:absolute;
   left:50%;
-  transform:translateX(-50%);
   top:-300px;
+  transform:translateX(-50%);
   z-index:5;
   animation:drop 2s ease forwards;
 }
@@ -47,9 +47,9 @@ body {
 /* Chute avec rebond */
 @keyframes drop {
   0% { top:-300px; }
-  70% { top:50%; transform:translate(-50%,-50%) scaleY(1.05);}
-  90% { top:50%; transform:translate(-50,-50%) scaleY(0.95);}
-  100% { top:50%; transform:translate(-50%,-50%) scaleY(1);}
+  70% { top:calc(50% - 60px); } /* milieu approximatif - rebond */
+  90% { top:calc(50% - 50px); }
+  100% { top:calc(50% - 55px); }
 }
 
 /* Bougie */
