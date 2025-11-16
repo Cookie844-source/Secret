@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anniversaire Animé</title>
+<!-- Google Fonts pour texte cursive -->
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
 body {
   margin:0;
@@ -101,22 +103,23 @@ body {
   bottom:50px;
   left:50%;
   transform:translateX(-50%);
-  font-size:2em;
+  font-size:2.5em;
   color:#fff;
   letter-spacing:2px;
   font-weight:bold;
   z-index:10;
-  font-family: 'cursive'; /* police manuscrite */
+  font-family: 'Dancing Script', cursive; /* police cursive Google Fonts */
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
 }
 
 /* Feux d'artifice */
 .firework {
   position:absolute;
-  width:4px;
-  height:4px;
+  width:6px;
+  height:6px;
   border-radius:50%;
   opacity:1;
-  animation:explode 1s ease-out forwards;
+  animation:explode 1.2s ease-out forwards;
 }
 
 @keyframes explode {
@@ -137,11 +140,9 @@ body {
 <div id="birthdayText"></div>
 
 <script>
-// Sélection du gâteau et du petit étage
+// Bougies
 const cake = document.getElementById('cake');
 const smallLayer = cake.querySelector('.layer:first-child');
-
-// Créer 3 bougies alignées
 const positions = [20, 50, 80];
 positions.forEach(p => {
   const candle = document.createElement('div');
@@ -197,7 +198,7 @@ for(let i=0;i<50;i++){
 }
 
 // Texte Happy Birthday
-function typeText(text, elementId, delay=200){
+function typeText(text, elementId, delay=150){
   const element = document.getElementById(elementId);
   let i = 0;
   function addLetter(){
@@ -209,14 +210,12 @@ function typeText(text, elementId, delay=200){
   }
   addLetter();
 }
-setTimeout(()=>{
-  typeText("Happy Birthday my Love!", "birthdayText", 150);
-},2500);
+setTimeout(()=>{ typeText("Happy Birthday my Love!", "birthdayText", 150); },2500);
 
-// Feux d'artifice continus avec couleurs aléatoires
+// Feux d'artifice visibles et continus
 function createFirework(){
   const x = Math.random() * window.innerWidth;
-  const y = 50 + Math.random()*150; // haut de l'écran
+  const y = 50 + Math.random()*150; 
   const particles = 30 + Math.floor(Math.random()*30);
   for(let i=0;i<particles;i++){
     const f = document.createElement('div');
@@ -229,15 +228,12 @@ function createFirework(){
     f.style.top = y + 'px';
     f.style.setProperty('--x', dx+'px');
     f.style.setProperty('--y', dy+'px');
-    // couleur totalement aléatoire
-    f.style.background = `hsl(${Math.random()*360}, 100%, 60%)`;
+    f.style.background = `hsl(${Math.random()*360}, 100%, 50%)`; // couleur vive
     document.body.appendChild(f);
-    setTimeout(()=>f.remove(),1200);
+    setTimeout(()=>f.remove(),1500);
   }
 }
-
-// Feux d'artifice toutes les 0.8 secondes pour un effet continu
-setInterval(createFirework, 800);
+setInterval(createFirework, 600); // explosions fréquentes pour effet continu
 
 </script>
 </body>
