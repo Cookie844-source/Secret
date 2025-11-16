@@ -12,44 +12,32 @@ body {
   background: linear-gradient(180deg,#ff9ad2,#ff68b5);
 }
 
-/* Parent gâteau */
+/* Parent gâteau centré */
 .cake {
   position:absolute;
   left:50%;
   transform:translateX(-50%);
-  top:-300px;
+  top:50%;
+  transform:translate(-50%, -50%);
   z-index:5;
-  animation:drop 1.5s ease forwards; /* chute globale */
 }
 
 /* Étages du gâteau */
 .layer {
   margin:0 auto;
   border-radius:20px;
-  position:relative;
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%) translateY(-500px); /* départ au-dessus */
   box-shadow:0 4px 6px rgba(0,0,0,0.2);
-  opacity:0; /* invisible au départ pour effet apparition */
-  transform: translateY(-50px); /* décalage vers le haut */
-  animation:layerDrop 0.8s forwards; /* animation apparition */
+  opacity:0;
 }
-
-/* Animation pour chaque étage */
-@keyframes layerDrop {
-  0% { opacity:0; transform:translateY(-50px); }
-  100% { opacity:1; transform:translateY(0); }
-}
-
-/* Délais spécifiques pour chaque étage */
-.layer:nth-child(1){ animation-delay: 0.2s; }  /* petit en haut */
-.layer:nth-child(2){ animation-delay: 0.5s; }
-.layer:nth-child(3){ animation-delay: 0.8s; }
-.layer:nth-child(4){ animation-delay: 1.1s; }  /* grand en bas */
 
 /* Différentes tailles des étages */
-.layer:nth-child(1){ width:120px; height:45px; background:#ffda79; }
+.layer:nth-child(1){ width:120px; height:45px; background:#ffda79; } /* petit en haut */
 .layer:nth-child(2){ width:150px; height:50px; background:#f6e58d; }
 .layer:nth-child(3){ width:180px; height:55px; background:#fad390; }
-.layer:nth-child(4){ width:220px; height:60px; background:#f8c291; }
+.layer:nth-child(4){ width:220px; height:60px; background:#f8c291; } /* grand en bas */
 
 /* Glaçage */
 .icing {
@@ -62,12 +50,12 @@ body {
   border-radius:50% 50% 0 0;
 }
 
-/* Animation chute globale avec rebond */
-@keyframes drop {
-  0% { top:-300px; }
-  60% { top:50%; transform:translate(-50%,-50%) scaleY(1.05);}
-  80% { top:50%; transform:translate(-50%,-50%) scaleY(0.95);}
-  100% { top:50%; transform:translate(-50%,-50%) scaleY(1);}
+/* Animation chute par étage */
+@keyframes dropLayer {
+  0% { opacity:0; transform:translateX(-50%) translateY(-500px); }
+  70% { opacity:1; transform:translateX(-50%) translateY(var(--target)); }
+  90% { transform:translateX(-50%) translateY(calc(var(--target) - 10px)); }
+  100% { transform:translateX(-50%) translateY(var(--target)); }
 }
 
 /* Confettis */
@@ -89,17 +77,24 @@ body {
 <body>
 
 <div class="cake">
-  <div class="layer"><div class="icing"></div></div> <!-- petit -->
-  <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div> <!-- grand -->
+  <div class="layer" style="--target:0px;"><div class="icing"></div></div> <!-- petit -->
+  <div class="layer" style="--target:50px;"><div class="icing"></div></div>
+  <div class="layer" style="--target:105px;"><div class="icing"></div></div>
+  <div class="layer" style="--target:165px;"><div class="icing"></div></div> <!-- grand -->
 </div>
 
 <script>
+// Faire tomber chaque étage séparément avec délai
+const layers = document.querySelectorAll('.layer');
+layers.forEach((layer, index)=>{
+  layer.style.animation = `dropLayer 0.8s forwards`;
+  layer.style.animationDelay = `${index*0.5}s`;
+});
+
+// Confettis
 const confettiColors = ['#ff5c8a','#ffd700','#7df9ff','#b19cd9','#ff7f50','#90ee90','#ffffff'];
 const sparkleColors = ['#ffffff','#ffeaa7','#fab1a0','#81ecec'];
 
-// Confettis
 for(let i=0;i<150;i++){
   const c=document.createElement('div');
   c.className='confetti';
