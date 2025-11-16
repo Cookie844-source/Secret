@@ -72,9 +72,10 @@
     border-radius:10px;
     margin-bottom:5px;
     position:relative;
+    overflow:hidden;
   }
 
-  .layer1 { background:#f8c291; } /* gâteau bas */
+  .layer1 { background:#f8c291; } /* bas */
   .layer2 { background:#fad390; } /* milieu */
   .layer3 { background:#f6e58d; } /* haut */
 
@@ -85,6 +86,13 @@
     top:-10px;
     background:#ff6b81;
     border-radius:50% 50% 0 0;
+  }
+
+  .decoration {
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
   }
 
   .candle {
@@ -148,13 +156,26 @@ for(let i=0;i<6;i++){
 const cake = document.createElement('div');
 cake.className='cake';
 
-['layer1','layer2','layer3'].forEach(layerClass=>{
+// Couleurs des étages
+const layers = ['layer1','layer2','layer3'];
+
+layers.forEach(layerClass=>{
   const layer = document.createElement('div');
   layer.className='cake-layer '+layerClass;
 
   const icing = document.createElement('div');
   icing.className='icing';
   layer.appendChild(icing);
+
+  // Décorations aléatoires
+  for(let i=0;i<5;i++){
+    const deco = document.createElement('div');
+    deco.className='decoration';
+    deco.style.background = confettiColors[Math.floor(Math.random()*confettiColors.length)];
+    deco.style.top = Math.random()*15 + 'px';
+    deco.style.left = Math.random()*100 + 'px';
+    layer.appendChild(deco);
+  }
 
   cake.appendChild(layer);
 });
