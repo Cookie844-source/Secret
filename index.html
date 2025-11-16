@@ -55,7 +55,7 @@ body {
 /* Bougies */
 .candle {
   position:absolute;
-  top:-35px; /* au-dessus du petit étage */
+  top:-28px; /* plus proche du sommet */
   width:10px;
   height:30px;
   background:#ff4d4d;
@@ -114,7 +114,7 @@ body {
 <script>
 // Ajouter plusieurs bougies
 const candleContainer = document.querySelector('.candles');
-const numCandles = 7; // nombre de bougies
+const numCandles = 5; // réduit à 5 bougies
 for(let i=0;i<numCandles;i++){
   const candle = document.createElement('div');
   candle.className = 'candle';
