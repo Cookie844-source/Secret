@@ -52,12 +52,10 @@ body {
   100% { transform:translateX(-50%) translateY(49vh) rotate(0deg); }
 }
 
-/* Bougie */
+/* Bougies */
 .candle {
   position:absolute;
   top:-35px; /* au-dessus du petit étage */
-  left:50%;
-  transform:translateX(-50%);
   width:10px;
   height:30px;
   background:#ff4d4d;
@@ -105,7 +103,8 @@ body {
 <div class="cake">
   <div class="layer">
     <div class="icing"></div>
-    <div class="candle"><div class="flame"></div></div>
+    <!-- Rangée de bougies sur le petit étage -->
+    <div class="candles"></div>
   </div>
   <div class="layer"><div class="icing"></div></div>
   <div class="layer"><div class="icing"></div></div>
@@ -113,6 +112,29 @@ body {
 </div>
 
 <script>
+// Ajouter plusieurs bougies
+const candleContainer = document.querySelector('.candles');
+const numCandles = 7; // nombre de bougies
+for(let i=0;i<numCandles;i++){
+  const candle = document.createElement('div');
+  candle.className = 'candle';
+  candle.style.left = `${(i/(numCandles-1))*100}%`;
+  candle.style.transform = 'translateX(-50%)';
+  
+  const flame = document.createElement('div');
+  flame.className = 'flame';
+  candle.appendChild(flame);
+  candleContainer.appendChild(candle);
+}
+
+// Bougies apparaissent après chute
+setTimeout(()=>{
+  document.querySelectorAll('.candle').forEach(c=>{
+    c.style.opacity = 1;
+    c.querySelector('.flame').style.opacity = 1;
+  });
+},2000);
+
 // Confettis
 const confettiColors = ['#ff5c8a','#ffd700','#7df9ff','#b19cd9','#ff7f50','#90ee90','#ffffff'];
 const sparkleColors = ['#ffffff','#ffeaa7','#fab1a0','#81ecec'];
@@ -169,13 +191,6 @@ document.body.addEventListener('mousemove', e=>{
   document.body.appendChild(c);
   setTimeout(()=>c.remove(),2000);
 });
-
-// Bougie apparaît après la fin de la chute (2s)
-const candle = document.querySelector('.candle');
-setTimeout(()=>{ 
-  candle.style.opacity = 1;
-  candle.querySelector('.flame').style.opacity = 1;
-}, 2000);
 </script>
 
 </body>
