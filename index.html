@@ -28,7 +28,7 @@ body {
   border-radius:20px;
   position:absolute;
   left:50%;
-  transform:translateX(-50%) translateY(-500px); /* départ au-dessus */
+  transform:translateX(-50%) translateY(-500px);
   box-shadow:0 4px 6px rgba(0,0,0,0.2);
   opacity:0;
 }
@@ -50,12 +50,43 @@ body {
   border-radius:50% 50% 0 0;
 }
 
+/* Bougie */
+.candle {
+  position:absolute;
+  width:10px;
+  height:30px;
+  background:#ffeaa7;
+  top:-35px; /* au-dessus du petit étage */
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:3px;
+  z-index:6;
+}
+.flame {
+  position:absolute;
+  width:12px;
+  height:12px;
+  top:-12px;
+  left:50%;
+  transform:translateX(-50%);
+  background: radial-gradient(circle, #ffeb3b 0%, #ff5722 60%);
+  border-radius:50%;
+  animation:flame 0.5s infinite alternate;
+}
+
 /* Animation chute par étage */
 @keyframes dropLayer {
   0% { opacity:0; transform:translateX(-50%) translateY(-500px); }
   70% { opacity:1; transform:translateX(-50%) translateY(var(--target)); }
   90% { transform:translateX(-50%) translateY(calc(var(--target) - 10px)); }
   100% { transform:translateX(-50%) translateY(var(--target)); }
+}
+
+/* Animation de la flamme */
+@keyframes flame {
+  0% { transform:translateX(-50%) scale(1); opacity:1; }
+  50% { transform:translateX(-50%) scale(1.3); opacity:0.8; }
+  100% { transform:translateX(-50%) scale(1); opacity:1; }
 }
 
 /* Confettis */
@@ -77,10 +108,14 @@ body {
 <body>
 
 <div class="cake">
-  <div class="layer" style="--target:0px;"><div class="icing"></div></div> <!-- petit -->
+  <div class="layer" style="--target:0px;">
+    <div class="icing"></div>
+    <!-- Bougie sur le petit étage -->
+    <div class="candle"><div class="flame"></div></div>
+  </div>
   <div class="layer" style="--target:50px;"><div class="icing"></div></div>
   <div class="layer" style="--target:105px;"><div class="icing"></div></div>
-  <div class="layer" style="--target:165px;"><div class="icing"></div></div> <!-- grand -->
+  <div class="layer" style="--target:165px;"><div class="icing"></div></div>
 </div>
 
 <script>
