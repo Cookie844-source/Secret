@@ -15,33 +15,37 @@ body {
 /* Chute du gâteau */
 .cake {
   position:absolute;
-  top:-600px; 
+  top:-600px;
   left:50%;
   transform:translateX(-50%) rotate(0deg);
   animation:dropCake 3s ease-out forwards;
   z-index:5;
+
+  display:flex;
+  flex-direction:column-reverse; /* ← empile du bas vers le haut */
+  align-items:center;
 }
 
 /* Étages du gâteau */
 .layer {
-  margin:5px auto;
+  margin:5px 0;
   border-radius:20px;
   position:relative;
   box-shadow:0 4px 6px rgba(0,0,0,0.2);
 }
-.layer:nth-child(1){ width:120px; height:45px; background:#ffda79; } /* petit */
-.layer:nth-child(2){ width:150px; height:50px; background:#f6e58d; }
-.layer:nth-child(3){ width:180px; height:55px; background:#fad390; }
-.layer:nth-child(4){ width:220px; height:60px; background:#f8c291; } /* grand */
+.layer:nth-child(1){ width:220px; height:60px; background:#f8c291; } /* grand */
+.layer:nth-child(2){ width:180px; height:55px; background:#fad390; }
+.layer:nth-child(3){ width:150px; height:50px; background:#f6e58d; }
+.layer:nth-child(4){ width:120px; height:45px; background:#ffda79; } /* petit */
 
-/* Glaçage en bas de chaque étage */
+/* Glaçage */
 .icing {
   position:absolute;
   width:100%;
   height:20px;
-  bottom:-20px; /* ← correction ici */
+  top:-20px;
   background:linear-gradient(to right,#ff6b81,#ff9a76);
-  border-radius:0 0 50% 50%;
+  border-radius:50% 50% 0 0;
 }
 
 /* Animation de chute */
@@ -116,10 +120,10 @@ body {
 
 <!-- Gâteau -->
 <div class="cake">
-  <div class="layer"><div class="icing"></div></div> <!-- étage petit -->
+  <div class="layer"><div class="icing"></div></div> <!-- petit -->
   <div class="layer"><div class="icing"></div></div>
   <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div> <!-- étage grand -->
+  <div class="layer"><div class="icing"></div></div> <!-- grand -->
 </div>
 
 <script>
