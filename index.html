@@ -55,7 +55,7 @@ body {
 /* Bougies */
 .candle {
   position:absolute;
-  top:-28px; /* plus proche du sommet */
+  top:-30px; /* au sommet du petit étage */
   width:10px;
   height:30px;
   background:#ff4d4d;
@@ -103,8 +103,12 @@ body {
 <div class="cake">
   <div class="layer">
     <div class="icing"></div>
-    <!-- Rangée de bougies sur le petit étage -->
-    <div class="candles"></div>
+    <!-- Bougies directement dans le layer -->
+    <div class="candle" style="left:10%;"><div class="flame"></div></div>
+    <div class="candle" style="left:30%;"><div class="flame"></div></div>
+    <div class="candle" style="left:50%;"><div class="flame"></div></div>
+    <div class="candle" style="left:70%;"><div class="flame"></div></div>
+    <div class="candle" style="left:90%;"><div class="flame"></div></div>
   </div>
   <div class="layer"><div class="icing"></div></div>
   <div class="layer"><div class="icing"></div></div>
@@ -112,21 +116,6 @@ body {
 </div>
 
 <script>
-// Ajouter plusieurs bougies
-const candleContainer = document.querySelector('.candles');
-const numCandles = 5; // réduit à 5 bougies
-for(let i=0;i<numCandles;i++){
-  const candle = document.createElement('div');
-  candle.className = 'candle';
-  candle.style.left = `${(i/(numCandles-1))*100}%`;
-  candle.style.transform = 'translateX(-50%)';
-  
-  const flame = document.createElement('div');
-  flame.className = 'flame';
-  candle.appendChild(flame);
-  candleContainer.appendChild(candle);
-}
-
 // Bougies apparaissent après chute
 setTimeout(()=>{
   document.querySelectorAll('.candle').forEach(c=>{
@@ -195,44 +184,3 @@ document.body.addEventListener('mousemove', e=>{
 
 </body>
 </html>
-
-
-<div class="layer">
-  <div class="icing"></div>
-  <!-- Bougies positionnées en haut du layer -->
-  <div class="candles"></div>
-</div>
-
-<script>
-// Ajouter plusieurs bougies
-const candleContainer = document.querySelector('.candles');
-const numCandles = 5;
-
-candleContainer.style.position = 'absolute';
-candleContainer.style.bottom = '100%'; // juste au-dessus du petit étage
-candleContainer.style.left = '0';
-candleContainer.style.width = '100%';
-candleContainer.style.height = '0'; // pas de hauteur pour que bottom fonctionne
-
-for(let i=0;i<numCandles;i++){
-  const candle = document.createElement('div');
-  candle.className = 'candle';
-  candle.style.position = 'absolute';
-  candle.style.left = `${(i/(numCandles-1))*100}%`;
-  candle.style.transform = 'translateX(-50%)';
-
-  const flame = document.createElement('div');
-  flame.className = 'flame';
-  candle.appendChild(flame);
-
-  candleContainer.appendChild(candle);
-}
-
-// Faire apparaître les bougies après la chute
-setTimeout(()=>{
-  document.querySelectorAll('.candle').forEach(c=>{
-    c.style.opacity = 1;
-    c.querySelector('.flame').style.opacity = 1;
-  });
-},2000);
-</script>
