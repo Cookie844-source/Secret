@@ -22,7 +22,7 @@ body {
   animation:drop 2s ease forwards;
 }
 
-/* Étages du gâteau */
+/* Étages */
 .layer {
   margin:0 auto;
   border-radius:20px;
@@ -44,7 +44,7 @@ body {
   border-radius:50% 50% 0 0;
 }
 
-/* Animation chute avec rebond */
+/* Chute avec rebond */
 @keyframes drop {
   0% { top:-300px; }
   70% { top:50%; transform:translate(-50%,-50%) scaleY(1.05);}
@@ -59,12 +59,11 @@ body {
   height:30px;
   background:#ff4d4d;
   left:50%;
-  bottom:calc(60px + 20px); /* au-dessus de l’étage supérieur */
+  bottom:calc(60px + 20px);
   transform:translateX(-50%);
   opacity:0;
   border-radius:2px;
   z-index:6;
-  pointer-events:none;
 }
 
 .flame {
@@ -84,18 +83,16 @@ body {
   100% { transform: translateY(-3px) scale(1.2); opacity:0.8; }
 }
 
-/* Confettis */
+/* Confettis, ballons, paillettes */
 .confetti { width:10px; height:10px; position:absolute; top:-20px; border-radius:50%; animation:fall linear infinite; z-index:3; }
 .confetti.star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 .confetti.diamond { transform: rotate(45deg); }
-@keyframes fall { 0%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(65vh) rotate(180deg);} 100%{transform:translateY(130vh) rotate(360deg);} }
+@keyframes fall {0%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(65vh) rotate(180deg);} 100%{transform:translateY(130vh) rotate(360deg);} }
 
-/* Ballons */
 .balloon { position:absolute; width:70px; height:90px; border-radius:50% 50% 45% 45%; animation:float 7s ease-in-out infinite; box-shadow:0 0 15px rgba(255,255,255,0.6); z-index:2; }
 .string { position:absolute; width:2px; height:60px; background:#444; left:50%; transform:translateX(-50%); top:90px; }
 @keyframes float{ 0%{transform:translateY(0) rotate(-6deg);} 50%{transform:translateY(-70px) rotate(6deg);} 100%{transform:translateY(0) rotate(-6deg);} }
 
-/* Paillettes */
 .sparkle { width:6px; height:6px; border-radius:50%; position:absolute; opacity:0.9; animation:twinkle 1.5s infinite alternate; box-shadow:0 0 8px 2px white; z-index:4; }
 @keyframes twinkle { 0% { transform:scale(1); opacity:0.4; } 100% { transform:scale(1.5); opacity:1; } }
 
@@ -104,19 +101,18 @@ body {
 <body>
 
 <div class="cake">
-  <div class="layer"><div class="icing"></div></div> <!-- petit -->
   <div class="layer"><div class="icing"></div></div>
   <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div> <!-- grand -->
+  <div class="layer"><div class="icing"></div></div>
+  <div class="layer"><div class="icing"></div></div>
   <div class="candle"><div class="flame"></div></div>
 </div>
 
 <script>
-// Confettis et paillettes
+// Confettis
 const confettiColors = ['#ff5c8a','#ffd700','#7df9ff','#b19cd9','#ff7f50','#90ee90','#ffffff'];
 const sparkleColors = ['#ffffff','#ffeaa7','#fab1a0','#81ecec'];
 
-// Confettis
 for(let i=0;i<150;i++){
   const c=document.createElement('div');
   c.className='confetti';
@@ -170,12 +166,11 @@ document.body.addEventListener('mousemove', e=>{
   setTimeout(()=>c.remove(),2000);
 });
 
-// Bougie qui apparaît quand le gâteau est au milieu
-const cake = document.querySelector('.cake');
+// Bougie apparaît après 2s (fin animation)
 const candle = document.querySelector('.candle');
-cake.addEventListener('animationend', () => {
-  candle.style.opacity = 1; // fait apparaître la bougie
-});
+setTimeout(()=>{ 
+  candle.style.opacity = 1; 
+}, 2000);
 </script>
 
 </body>
