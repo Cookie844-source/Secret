@@ -192,18 +192,16 @@ function createFirework(){
 }
 setInterval(createFirework,600);
 
-// Faire apparaître le "14" juste au-dessus du gâteau
-setTimeout(()=>{
+// Faire apparaître le "14" juste au-dessus du gâteau après animation
+cake.addEventListener('animationend', ()=>{
   const num=document.createElement('div');
   num.className='number14';
   num.textContent='14';
-  // positionner au centre du gâteau
   const rect=cake.getBoundingClientRect();
   num.style.left=rect.left + rect.width/2 + 'px';
   num.style.top=rect.top - 20 + 'px';
   document.body.appendChild(num);
-},2500);
-
+});
 </script>
 </body>
 </html>
