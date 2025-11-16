@@ -16,8 +16,8 @@ body {
 .cake {
   position:absolute;
   left:50%;
-  top:0;
-  transform:translateX(-50%) translateY(-300px);
+  top:-300px; /* départ de la chute */
+  transform:translateX(-50%);
   z-index:5;
   animation:drop 2s ease forwards;
 }
@@ -44,18 +44,17 @@ body {
   border-radius:50% 50% 0 0;
 }
 
-/* Chute avec rebond via transform */
+/* Chute avec rebond */
 @keyframes drop {
-  0% { transform:translateX(-50%) translateY(-300px) rotate(0deg); }
-  70% { transform:translateX(-50%) translateY(50vh) rotate(0deg); }
-  90% { transform:translateX(-50%) translateY(48vh) rotate(0deg); }
-  100% { transform:translateX(-50%) translateY(49vh) rotate(0deg); }
+  0% { top:-300px; }
+  70% { top:50vh; }
+  90% { top:48vh; }
+  100% { top:49vh; }
 }
 
 /* Bougies */
 .candle {
   position:absolute;
-  top:-30px; /* au sommet du petit étage */
   width:10px;
   height:30px;
   background:#ff4d4d;
@@ -95,26 +94,39 @@ body {
 /* Paillettes */
 .sparkle { width:6px; height:6px; border-radius:50%; position:absolute; opacity:0.9; animation:twinkle 1.5s infinite alternate; box-shadow:0 0 8px 2px white; z-index:4; }
 @keyframes twinkle { 0% { transform:scale(1); opacity:0.4; } 100% { transform:scale(1.5); opacity:1; } }
-
 </style>
 </head>
 <body>
 
-<div class="cake">
-  <div class="layer">
-    <div class="icing"></div>
-    <!-- 3 bougies alignées -->
-    <div class="candle" style="left:20%;"><div class="flame"></div></div>
-    <div class="candle" style="left:50%;"><div class="flame"></div></div>
-    <div class="candle" style="left:80%;"><div class="flame"></div></div>
-  </div>
+<div class="cake" id="cake">
+  <div class="layer"><div class="icing"></div></div>
   <div class="layer"><div class="icing"></div></div>
   <div class="layer"><div class="icing"></div></div>
   <div class="layer"><div class="icing"></div></div>
 </div>
 
 <script>
-// Bougies apparaissent après chute
+// Position du petit étage pour placer les bougies
+const cake = document.getElementById('cake');
+const smallLayer = cake.querySelector('.layer:first-child');
+const layerRect = smallLayer.getBoundingClientRect();
+const cakeRect = cake.getBoundingClientRect();
+const cakeLeft = cakeRect.left;
+
+// Créer 3 bougies
+const positions = [20, 50, 80]; // en pourcentage
+positions.forEach(p => {
+  const candle = document.createElement('div');
+  candle.className = 'candle';
+  candle.style.left = `calc(${p}% - 5px)`; // centrer bougie
+  candle.style.top = `${-30}px`; // juste au-dessus du petit étage
+  const flame = document.createElement('div');
+  flame.className = 'flame';
+  candle.appendChild(flame);
+  cake.appendChild(candle);
+});
+
+// Faire apparaître bougies après chute
 setTimeout(()=>{
   document.querySelectorAll('.candle').forEach(c=>{
     c.style.opacity = 1;
@@ -125,7 +137,6 @@ setTimeout(()=>{
 // Confettis
 const confettiColors = ['#ff5c8a','#ffd700','#7df9ff','#b19cd9','#ff7f50','#90ee90','#ffffff'];
 const sparkleColors = ['#ffffff','#ffeaa7','#fab1a0','#81ecec'];
-
 for(let i=0;i<150;i++){
   const c=document.createElement('div');
   c.className='confetti';
