@@ -48,14 +48,14 @@ body {
 @keyframes drop {
   0% { top:-300px; }
   70% { top:50%; transform:translate(-50%,-50%) scaleY(1.05);}
-  90% { top:50%; transform:translate(-50%,-50%) scaleY(0.95);}
+  90% { top:50%; transform:translate(-50,-50%) scaleY(0.95);}
   100% { top:50%; transform:translate(-50%,-50%) scaleY(1);}
 }
 
 /* Bougie */
 .candle {
   position:absolute;
-  top:-35px; /* au-dessus de l’étage supérieur */
+  top:-35px; /* juste au-dessus du petit étage */
   left:50%;
   transform:translateX(-50%);
   width:10px;
@@ -83,31 +83,34 @@ body {
   100% { transform: translateY(-3px) scale(1.2); opacity:0.8; }
 }
 
-/* Confettis, ballons, paillettes */
+/* Confettis */
 .confetti { width:10px; height:10px; position:absolute; top:-20px; border-radius:50%; animation:fall linear infinite; z-index:3; }
 .confetti.star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 .confetti.diamond { transform: rotate(45deg); }
 @keyframes fall {0%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(65vh) rotate(180deg);} 100%{transform:translateY(130vh) rotate(360deg);} }
 
+/* Ballons */
 .balloon { position:absolute; width:70px; height:90px; border-radius:50% 50% 45% 45%; animation:float 7s ease-in-out infinite; box-shadow:0 0 15px rgba(255,255,255,0.6); z-index:2; }
 .string { position:absolute; width:2px; height:60px; background:#444; left:50%; transform:translateX(-50%); top:90px; }
 @keyframes float{ 0%{transform:translateY(0) rotate(-6deg);} 50%{transform:translateY(-70px) rotate(6deg);} 100%{transform:translateY(0) rotate(-6deg);} }
 
+/* Paillettes */
 .sparkle { width:6px; height:6px; border-radius:50%; position:absolute; opacity:0.9; animation:twinkle 1.5s infinite alternate; box-shadow:0 0 8px 2px white; z-index:4; }
-@keyframes twinkle { 0% { transform:scale(1); opacity:0.4; } 100% { transform:scale(1.5); opacity:1; }
+@keyframes twinkle { 0% { transform:scale(1); opacity:0.4; } 100% { transform:scale(1.5); opacity:1; } }
 
 </style>
 </head>
 <body>
 
 <div class="cake">
-  <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div>
-    <!-- Bougie attachée au dernier étage (grand) -->
+  <div class="layer">
+    <div class="icing"></div>
+    <!-- Bougie attachée au petit étage du haut -->
     <div class="candle"><div class="flame"></div></div>
   </div>
+  <div class="layer"><div class="icing"></div></div>
+  <div class="layer"><div class="icing"></div></div>
+  <div class="layer"><div class="icing"></div></div>
 </div>
 
 <script>
@@ -168,13 +171,13 @@ document.body.addEventListener('mousemove', e=>{
   setTimeout(()=>c.remove(),2000);
 });
 
-// Bougie apparaît après 2s (fin animation)
+// Bougie apparaît après la fin de la chute (2s)
 const candle = document.querySelector('.candle');
 setTimeout(()=>{ 
   candle.style.opacity = 1;
   candle.querySelector('.flame').style.opacity = 1;
 }, 2000);
-
 </script>
+
 </body>
 </html>
