@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gâteau Anniversaire Animé</title>
+<title>Gâteau Anniversaire</title>
 <style>
 body {
   margin:0;
@@ -12,34 +12,34 @@ body {
   background: linear-gradient(180deg,#ff9ad2,#ff68b5);
 }
 
-/* Parent gâteau centré */
+/* Parent gâteau */
 .cake {
   position:absolute;
   left:50%;
   transform:translateX(-50%);
-  top:50%;
-  transform:translate(-50%, -50%);
+  top:-300px;
   z-index:5;
+  animation:drop 2s ease forwards;
 }
 
 /* Étages du gâteau */
 .layer {
-  margin:0 auto;
-  border-radius:20px;
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%) translateY(-500px);
+  width: 100%;
+  max-width: 220px;
+  height: 60px;
+  margin: 0 auto;
+  border-radius: 20px;
+  position: relative;
   box-shadow:0 4px 6px rgba(0,0,0,0.2);
-  opacity:0;
 }
 
-/* Différentes tailles des étages */
+/* Couches différentes tailles */
 .layer:nth-child(1){ width:120px; height:45px; background:#ffda79; } /* petit en haut */
 .layer:nth-child(2){ width:150px; height:50px; background:#f6e58d; }
 .layer:nth-child(3){ width:180px; height:55px; background:#fad390; }
 .layer:nth-child(4){ width:220px; height:60px; background:#f8c291; } /* grand en bas */
 
-/* Glaçage */
+/* Glaçage sur chaque étage */
 .icing {
   position:absolute;
   top:0;
@@ -47,89 +47,46 @@ body {
   width:100%;
   height:20px;
   background: linear-gradient(to right,#ff6b81,#ff9a76);
-  border-radius:50% 50% 0 0;
+  border-radius: 50% 50% 0 0;
 }
 
-/* Bougie */
-.candle {
-  position:absolute;
-  width:10px;
-  height:30px;
-  background:#ffeaa7;
-  top:-35px; /* au-dessus du petit étage */
-  left:50%;
-  transform:translateX(-50%);
-  border-radius:3px;
-  z-index:6;
-}
-.flame {
-  position:absolute;
-  width:12px;
-  height:12px;
-  top:-12px;
-  left:50%;
-  transform:translateX(-50%);
-  background: radial-gradient(circle, #ffeb3b 0%, #ff5722 60%);
-  border-radius:50%;
-  animation:flame 0.5s infinite alternate;
+/* Animation chute */
+@keyframes drop {
+  0% { top:-300px; }
+  70% { top:50%; transform:translate(-50%,-50%) scaleY(1.05);}
+  90% { top:50%; transform:translate(-50%,-50%) scaleY(0.95);}
+  100% { top:50%; transform:translate(-50%,-50%) scaleY(1);}
 }
 
-/* Animation chute par étage */
-@keyframes dropLayer {
-  0% { opacity:0; transform:translateX(-50%) translateY(-500px); }
-  70% { opacity:1; transform:translateX(-50%) translateY(var(--target)); }
-  90% { transform:translateX(-50%) translateY(calc(var(--target) - 10px)); }
-  100% { transform:translateX(-50%) translateY(var(--target)); }
-}
-
-/* Animation de la flamme */
-@keyframes flame {
-  0% { transform:translateX(-50%) scale(1); opacity:1; }
-  50% { transform:translateX(-50%) scale(1.3); opacity:0.8; }
-  100% { transform:translateX(-50%) scale(1); opacity:1; }
-}
-
-/* Confettis */
+/* Confettis, ballons, paillettes (comme avant) */
 .confetti { width:10px; height:10px; position:absolute; top:-20px; border-radius:50%; animation:fall linear infinite; z-index:3; }
 .confetti.star { clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%); }
 .confetti.diamond { transform: rotate(45deg); }
 @keyframes fall {0%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(65vh) rotate(180deg);} 100%{transform:translateY(130vh) rotate(360deg);} }
 
-/* Ballons */
 .balloon { position:absolute; width:70px; height:90px; border-radius:50% 50% 45% 45%; animation:float 7s ease-in-out infinite; box-shadow:0 0 15px rgba(255,255,255,0.6); z-index:2; }
 .string { position:absolute; width:2px; height:60px; background:#444; left:50%; transform:translateX(-50%); top:90px; }
 @keyframes float{ 0%{transform:translateY(0) rotate(-6deg);} 50%{transform:translateY(-70px) rotate(6deg);} 100%{transform:translateY(0) rotate(-6deg);} }
 
-/* Paillettes */
 .sparkle { width:6px; height:6px; border-radius:50%; position:absolute; opacity:0.9; animation:twinkle 1.5s infinite alternate; box-shadow:0 0 8px 2px white; z-index:4; }
 @keyframes twinkle { 0% { transform:scale(1); opacity:0.4; } 100% { transform:scale(1.5); opacity:1; } }
+
 </style>
 </head>
 <body>
 
 <div class="cake">
-  <div class="layer" style="--target:0px;">
-    <div class="icing"></div>
-    <!-- Bougie sur le petit étage -->
-    <div class="candle"><div class="flame"></div></div>
-  </div>
-  <div class="layer" style="--target:50px;"><div class="icing"></div></div>
-  <div class="layer" style="--target:105px;"><div class="icing"></div></div>
-  <div class="layer" style="--target:165px;"><div class="icing"></div></div>
+  <div class="layer"><div class="icing"></div></div> <!-- petit -->
+  <div class="layer"><div class="icing"></div></div>
+  <div class="layer"><div class="icing"></div></div>
+  <div class="layer"><div class="icing"></div></div> <!-- grand -->
 </div>
 
 <script>
-// Faire tomber chaque étage séparément avec délai
-const layers = document.querySelectorAll('.layer');
-layers.forEach((layer, index)=>{
-  layer.style.animation = `dropLayer 0.8s forwards`;
-  layer.style.animationDelay = `${index*0.5}s`;
-});
-
-// Confettis
 const confettiColors = ['#ff5c8a','#ffd700','#7df9ff','#b19cd9','#ff7f50','#90ee90','#ffffff'];
 const sparkleColors = ['#ffffff','#ffeaa7','#fab1a0','#81ecec'];
 
+// Confettis
 for(let i=0;i<150;i++){
   const c=document.createElement('div');
   c.className='confetti';
