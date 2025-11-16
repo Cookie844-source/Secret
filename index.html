@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gâteau Anniversaire Animé</title>
+<title>Gâteau Anniversaire Ultra Dynamique</title>
 <style>
 body {
   margin:0;
@@ -16,7 +16,6 @@ body {
 .cake {
   position:absolute;
   left:50%;
-  transform:translateX(-50%);
   top:50%;
   transform:translate(-50%, -50%);
   z-index:5;
@@ -60,6 +59,7 @@ body {
   left:50%;
   transform:translateX(-50%);
   border-radius:3px;
+  opacity:0; /* invisible au départ */
   z-index:6;
 }
 .flame {
@@ -71,21 +71,24 @@ body {
   transform:translateX(-50%);
   background: radial-gradient(circle, #ffeb3b 0%, #ff5722 60%);
   border-radius:50%;
-  animation:flame 0.5s infinite alternate;
+  animation:flame 0.4s infinite alternate;
 }
 
-/* Animation chute par étage */
+/* Animation chute par étage avec rebond */
 @keyframes dropLayer {
   0% { opacity:0; transform:translateX(-50%) translateY(-500px); }
-  70% { opacity:1; transform:translateX(-50%) translateY(var(--target)); }
-  90% { transform:translateX(-50%) translateY(calc(var(--target) - 10px)); }
+  60% { opacity:1; transform:translateX(-50%) translateY(var(--target)); }
+  80% { transform:translateX(-50%) translateY(calc(var(--target) - 15px)); }
+  90% { transform:translateX(-50%) translateY(calc(var(--target) + 5px)); }
   100% { transform:translateX(-50%) translateY(var(--target)); }
 }
 
-/* Animation de la flamme */
+/* Animation de la flamme réaliste */
 @keyframes flame {
   0% { transform:translateX(-50%) scale(1); opacity:1; }
-  50% { transform:translateX(-50%) scale(1.3); opacity:0.8; }
+  25% { transform:translateX(-52%) scale(1.2); opacity:0.9; }
+  50% { transform:translateX(-48%) scale(1.1); opacity:1; }
+  75% { transform:translateX(-51%) scale(1.3); opacity:0.85; }
   100% { transform:translateX(-50%) scale(1); opacity:1; }
 }
 
@@ -95,10 +98,11 @@ body {
 .confetti.diamond { transform: rotate(45deg); }
 @keyframes fall {0%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(65vh) rotate(180deg);} 100%{transform:translateY(130vh) rotate(360deg);} }
 
-/* Ballons */
-.balloon { position:absolute; width:70px; height:90px; border-radius:50% 50% 45% 45%; animation:float 7s ease-in-out infinite; box-shadow:0 0 15px rgba(255,255,255,0.6); z-index:2; }
+/* Ballons avec rebond léger */
+.balloon { position:absolute; width:70px; height:90px; border-radius:50% 50% 45% 45%; animation:float 7s ease-in-out infinite, balloonBounce 1s ease forwards; box-shadow:0 0 15px rgba(255,255,255,0.6); z-index:2; }
 .string { position:absolute; width:2px; height:60px; background:#444; left:50%; transform:translateX(-50%); top:90px; }
 @keyframes float{ 0%{transform:translateY(0) rotate(-6deg);} 50%{transform:translateY(-70px) rotate(6deg);} 100%{transform:translateY(0) rotate(-6deg);} }
+@keyframes balloonBounce{ 0% { bottom:-90px; } 60% { bottom:20px; } 80% { bottom:10px; } 100% { bottom:15px; } }
 
 /* Paillettes */
 .sparkle { width:6px; height:6px; border-radius:50%; position:absolute; opacity:0.9; animation:twinkle 1.5s infinite alternate; box-shadow:0 0 8px 2px white; z-index:4; }
@@ -110,8 +114,7 @@ body {
 <div class="cake">
   <div class="layer" style="--target:0px;">
     <div class="icing"></div>
-    <!-- Bougie sur le petit étage -->
-    <div class="candle"><div class="flame"></div></div>
+    <div class="candle" id="candle"><div class="flame"></div></div>
   </div>
   <div class="layer" style="--target:50px;"><div class="icing"></div></div>
   <div class="layer" style="--target:105px;"><div class="icing"></div></div>
@@ -119,12 +122,18 @@ body {
 </div>
 
 <script>
-// Faire tomber chaque étage séparément avec délai
+// Étages qui tombent avec rebond
 const layers = document.querySelectorAll('.layer');
 layers.forEach((layer, index)=>{
   layer.style.animation = `dropLayer 0.8s forwards`;
   layer.style.animationDelay = `${index*0.5}s`;
 });
+
+// Bougie apparaît quand gâteau est au centre
+const candle = document.getElementById('candle');
+setTimeout(()=>{
+  candle.style.opacity = 1;
+}, layers.length * 500 + 800);
 
 // Confettis
 const confettiColors = ['#ff5c8a','#ffd700','#7df9ff','#b19cd9','#ff7f50','#90ee90','#ffffff'];
@@ -148,7 +157,6 @@ for(let i=0;i<6;i++){
   const b=document.createElement('div');
   b.className='balloon';
   b.style.left=(10+i*15)+'vw';
-  b.style.bottom='-90px';
   b.style.background=balloonColors[i % balloonColors.length];
   b.style.animationDelay=(i*0.5)+'s';
   const s=document.createElement('div');
