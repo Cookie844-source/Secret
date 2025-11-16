@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Anniversaire Animé</title>
-<!-- Google Fonts pour texte cursive -->
 <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
 body {
@@ -65,7 +64,6 @@ body {
   border-radius:2px;
   z-index:6;
 }
-
 .flame {
   position:absolute;
   width:8px;
@@ -76,7 +74,6 @@ body {
   left:1px;
   animation:flame 0.5s forwards infinite alternate;
 }
-
 @keyframes flame {
   0% { transform: translateY(0) scale(1); }
   100% { transform: translateY(-3px) scale(1.2); }
@@ -108,7 +105,7 @@ body {
   letter-spacing:2px;
   font-weight:bold;
   z-index:10;
-  font-family: 'Dancing Script', cursive; /* police cursive Google Fonts */
+  font-family: 'Dancing Script', cursive;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
 }
 
@@ -121,10 +118,26 @@ body {
   opacity:1;
   animation:explode 1.2s ease-out forwards;
 }
+@keyframes explode { 0% { transform: translate(0,0) scale(1); opacity:1; } 100% { transform: translate(var(--x), var(--y)) scale(0); opacity:0; } }
 
-@keyframes explode {
-  0% { transform: translate(0,0) scale(1); opacity:1; }
-  100% { transform: translate(var(--x), var(--y)) scale(0); opacity:0; }
+/* Effet "14" */
+#number14 {
+  position:absolute;
+  font-size:5em;
+  color:#ffd700;
+  font-weight:bold;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,0) scale(1);
+  opacity:0;
+  z-index:20;
+  font-family: 'Dancing Script', cursive;
+  text-shadow: 2px 2px 8px #ff6b81;
+  animation:rise 2s forwards;
+}
+@keyframes rise {
+  0% { transform:translate(-50%,0) scale(1); opacity:1; }
+  100% { transform:translate(-50%,-150px) scale(1.5); opacity:0; }
 }
 </style>
 </head>
@@ -212,7 +225,7 @@ function typeText(text, elementId, delay=150){
 }
 setTimeout(()=>{ typeText("Happy Birthday my Love!", "birthdayText", 150); },2500);
 
-// Feux d'artifice visibles et continus
+// Feux d'artifice continus
 function createFirework(){
   const x = Math.random() * window.innerWidth;
   const y = 50 + Math.random()*150; 
@@ -228,13 +241,21 @@ function createFirework(){
     f.style.top = y + 'px';
     f.style.setProperty('--x', dx+'px');
     f.style.setProperty('--y', dy+'px');
-    f.style.background = `hsl(${Math.random()*360}, 100%, 50%)`; // couleur vive
+    f.style.background = `hsl(${Math.random()*360}, 100%, 50%)`;
     document.body.appendChild(f);
     setTimeout(()=>f.remove(),1500);
   }
 }
-setInterval(createFirework, 600); // explosions fréquentes pour effet continu
+setInterval(createFirework, 600);
 
+// Faire apparaître le "14" après chute du gâteau
+setTimeout(()=>{
+  const num = document.createElement('div');
+  num.id='number14';
+  num.textContent='14';
+  document.body.appendChild(num);
+  // disparaît automatiquement grâce à l'animation CSS
+}, 2500);
 </script>
 </body>
 </html>
