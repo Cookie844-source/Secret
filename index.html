@@ -24,17 +24,15 @@ body {
 
 /* Étages du gâteau */
 .layer {
-  width:220px;
-  height:60px;
   margin:5px auto;
-  background:#f8c291;
   border-radius:20px;
   position:relative;
   box-shadow:0 4px 6px rgba(0,0,0,0.2);
 }
+.layer:nth-child(1){ width:220px; height:60px; background:#f8c291; } /* grand */
 .layer:nth-child(2){ width:180px; height:55px; background:#fad390; }
 .layer:nth-child(3){ width:150px; height:50px; background:#f6e58d; }
-.layer:nth-child(4){ width:120px; height:45px; background:#ffda79; }
+.layer:nth-child(4){ width:120px; height:45px; background:#ffda79; } /* petit */
 
 /* Glaçage */
 .icing {
@@ -118,10 +116,10 @@ body {
 
 <!-- Gâteau -->
 <div class="cake">
-  <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div>
-  <div class="layer"><div class="icing"></div></div>
+  <div class="layer"><div class="icing"></div></div> <!-- étage 1 grand -->
+  <div class="layer"><div class="icing"></div></div> <!-- étage 2 -->
+  <div class="layer"><div class="icing"></div></div> <!-- étage 3 -->
+  <div class="layer"><div class="icing"></div></div> <!-- étage 4 petit -->
 </div>
 
 <script>
