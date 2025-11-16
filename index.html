@@ -98,34 +98,17 @@
   .cake-emoji {
     position:absolute;
     font-size:80px;
-    bottom:0;
     left:50%;
-    transform:translateX(-50%) translateY(-200px);
+    transform:translateX(-50%) translateY(-100%);
     animation:dropCakeEmoji 3s ease-out forwards;
   }
   @keyframes dropCakeEmoji {
-    0% { transform:translateX(-50%) translateY(-300px); }
+    0% { transform:translateX(-50%) translateY(-100%); }
     100% { transform:translateX(-50%) translateY(calc(50vh - 40px)); }
-  }
-
-  /* Texte joyeux anniversaire */
-  .center-text{
-    position:absolute;
-    width:100%;
-    top:10%;
-    text-align:center;
-    color:white;
-    font-size:2em;
-    font-weight:bold;
-    text-shadow:0 0 5px #000;
   }
 </style>
 </head>
 <body>
-
-<div class="center-text">
-  Joyeux Anniversaire ! 🎉
-</div>
 
 <script>
 const confettiColors = ['#ff5c8a','#ffd700','#7df9ff','#b19cd9','#ff7f50','#90ee90','#ffffff'];
