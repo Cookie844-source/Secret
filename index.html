@@ -99,12 +99,13 @@
     position:absolute;
     font-size:80px;
     left:50%;
-    transform:translateX(-50%) translateY(-100%);
-    animation:dropCakeEmoji 3s ease-out forwards;
+    top:-100px; /* commence au-dessus de l'écran */
+    transform:translateX(-50%);
+    animation:dropCake 3s ease-out forwards;
   }
-  @keyframes dropCakeEmoji {
-    0% { transform:translateX(-50%) translateY(-100%); }
-    100% { transform:translateX(-50%) translateY(calc(50vh - 40px)); }
+  @keyframes dropCake {
+    0% { top:-100px; }
+    100% { top:calc(50vh - 40px); } /* milieu de l'écran */
   }
 </style>
 </head>
