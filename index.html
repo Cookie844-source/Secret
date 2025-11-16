@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gâteau Anniversaire Ultra Dynamique</title>
+<title>Gâteau Anniversaire Animé</title>
 <style>
 body {
   margin:0;
@@ -12,12 +12,12 @@ body {
   background: linear-gradient(180deg,#ff9ad2,#ff68b5);
 }
 
-/* Parent gâteau centré */
+/* Parent gâteau centré horizontalement */
 .cake {
   position:absolute;
   left:50%;
   top:50%;
-  transform:translate(-50%, -50%);
+  transform:translateX(-50%);
   z-index:5;
 }
 
@@ -27,16 +27,16 @@ body {
   border-radius:20px;
   position:absolute;
   left:50%;
-  transform:translateX(-50%) translateY(-500px);
+  transform:translateX(-50%);
   box-shadow:0 4px 6px rgba(0,0,0,0.2);
   opacity:0;
 }
 
-/* Différentes tailles des étages */
-.layer:nth-child(1){ width:120px; height:45px; background:#ffda79; } /* petit en haut */
+/* Différentes tailles */
+.layer:nth-child(1){ width:120px; height:45px; background:#ffda79; } 
 .layer:nth-child(2){ width:150px; height:50px; background:#f6e58d; }
 .layer:nth-child(3){ width:180px; height:55px; background:#fad390; }
-.layer:nth-child(4){ width:220px; height:60px; background:#f8c291; } /* grand en bas */
+.layer:nth-child(4){ width:220px; height:60px; background:#f8c291; } 
 
 /* Glaçage */
 .icing {
@@ -55,7 +55,7 @@ body {
   width:10px;
   height:30px;
   background:#ffeaa7;
-  top:-35px; /* au-dessus du petit étage */
+  top:-35px;
   left:50%;
   transform:translateX(-50%);
   border-radius:3px;
@@ -76,14 +76,14 @@ body {
 
 /* Animation chute par étage avec rebond */
 @keyframes dropLayer {
-  0% { opacity:0; transform:translateX(-50%) translateY(-500px); }
+  0% { opacity:0; transform:translateX(-50%) translateY(-600px); }
   60% { opacity:1; transform:translateX(-50%) translateY(var(--target)); }
   80% { transform:translateX(-50%) translateY(calc(var(--target) - 15px)); }
   90% { transform:translateX(-50%) translateY(calc(var(--target) + 5px)); }
   100% { transform:translateX(-50%) translateY(var(--target)); }
 }
 
-/* Animation de la flamme réaliste */
+/* Animation flamme réaliste */
 @keyframes flame {
   0% { transform:translateX(-50%) scale(1); opacity:1; }
   25% { transform:translateX(-52%) scale(1.2); opacity:0.9; }
@@ -122,14 +122,14 @@ body {
 </div>
 
 <script>
-// Étages qui tombent avec rebond
+// Chute des étages
 const layers = document.querySelectorAll('.layer');
 layers.forEach((layer, index)=>{
   layer.style.animation = `dropLayer 0.8s forwards`;
   layer.style.animationDelay = `${index*0.5}s`;
 });
 
-// Bougie apparaît quand gâteau est au centre
+// Bougie visible après la chute complète
 const candle = document.getElementById('candle');
 setTimeout(()=>{
   candle.style.opacity = 1;
